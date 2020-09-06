@@ -1,5 +1,5 @@
 // from data.js
-var tableData = data;
+let tableData = data;
 let tbody = d3.select("tbody");
 
 console.log(data);
@@ -22,8 +22,8 @@ data.forEach(function(ufoSighting){
 });
 
 //select the form
-var form = d3.select("#form");
-var button = d3.select("#filter-btn");
+let form = d3.select("#form");
+let button = d3.select("#filter-btn");
 
 // Create event handlers for pressing the enter key or clicking filter btn
 form.on("submit",runEnter);
@@ -41,4 +41,25 @@ function runEnter() {
 
     let filteredData = tableData.filter(entryDate => entryDate.datetime === inputValue);
     console.log(filteredData);
+
+    //clear html table data in tbody already existing
+    tbody.html(" ");
+
+    filteredData.forEach(function(filteredSighting){
+        //Use d3 to append one table row `tr` for each ufosighting object
+        let row = tbody.append("tr");
+        //Use `Object.entries` to console.log each ufosighting value
+        Object.entries(filteredSighting).forEach(function([key, value]){
+            console.log(key, value);
+            //Use d3 to append 1 cell per ufo sighting value (datetime, city, state, 
+            //country, shape, durationMinutes, comments)
+            let cell = row.append("td");
+            //Use d3 to update each cell's text with ufo sighting value
+            cell.text(value);
+        });
+    });
+
+    
+
+
 }
